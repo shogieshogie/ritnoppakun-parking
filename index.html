@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>ritnoppakun.com</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .scene {
+        width: min(80vw, 520px);
+        aspect-ratio: 4 / 3;
+      }
+      .scene svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .breathe {
+        transform-origin: 200px 230px;
+        animation: breathe 4.5s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%, 100% { transform: scale(1, 1); }
+        50%      { transform: scale(1.018, 1.035); }
+      }
+
+      .tail {
+        transform-origin: 285px 215px;
+        animation: tail 6s ease-in-out infinite;
+      }
+      @keyframes tail {
+        0%, 100% { transform: rotate(0deg); }
+        50%      { transform: rotate(-3deg); }
+      }
+
+      .zzz {
+        fill: #4a4a4a;
+        font-family: ui-serif, Georgia, "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 400;
+        opacity: 0;
+        animation: float 5s ease-in-out infinite;
+      }
+      .zzz.z1 { animation-delay: 0s;   font-size: 22px; }
+      .zzz.z2 { animation-delay: 1.6s; font-size: 26px; }
+      .zzz.z3 { animation-delay: 3.2s; font-size: 30px; }
+      @keyframes float {
+        0%   { opacity: 0;   transform: translate(0, 0); }
+        20%  { opacity: 0.6; }
+        80%  { opacity: 0.4; }
+        100% { opacity: 0;   transform: translate(14px, -50px); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .breathe, .tail, .zzz { animation: none; }
+        .zzz { opacity: 0.4; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="scene" aria-label="A sleeping cat">
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- soft shadow -->
+        <ellipse cx="200" cy="258" rx="135" ry="6" fill="#0c0c0c" />
+
+        <!-- floating Zzz -->
+        <g transform="translate(255 130)">
+          <text class="zzz z1" x="0"  y="0">z</text>
+          <text class="zzz z2" x="14" y="-22">z</text>
+          <text class="zzz z3" x="32" y="-46">Z</text>
+        </g>
+
+        <!-- cat body (breathing) -->
+        <g class="breathe">
+          <!-- tail (curls behind body) -->
+          <g class="tail">
+            <path
+              d="M 285 215
+                 q 38 -8 38 22
+                 q 0 28 -28 32"
+              fill="none"
+              stroke="#e9d4b8"
+              stroke-width="22"
+              stroke-linecap="round" />
+            <!-- tail tip highlight -->
+            <circle cx="295" cy="269" r="9" fill="#f3dfc4" />
+          </g>
+
+          <!-- main body: a curled oval -->
+          <path
+            d="M 105 230
+               Q  85 195, 125 168
+               Q 175 138, 245 150
+               Q 305 162, 300 215
+               Q 295 252, 200 252
+               Q 130 252, 105 230 Z"
+            fill="#e9d4b8" />
+
+          <!-- belly tuck shading -->
+          <path
+            d="M 150 245
+               Q 200 258, 270 240
+               Q 240 252, 200 252
+               Q 170 252, 150 245 Z"
+            fill="#d8c0a0" />
+
+          <!-- back leg/paw tucked -->
+          <ellipse cx="170" cy="240" rx="22" ry="9" fill="#d8c0a0" />
+
+          <!-- head -->
+          <circle cx="118" cy="186" r="38" fill="#e9d4b8" />
+
+          <!-- ears -->
+          <path d="M 92 162 L 88 134 L 114 156 Z"  fill="#e9d4b8" />
+          <path d="M 130 152 L 144 128 L 150 152 Z" fill="#e9d4b8" />
+          <!-- inner ear blush -->
+          <path d="M 96 158 L 96 144 L 108 156 Z"  fill="#c98a8a" opacity="0.6" />
+          <path d="M 134 150 L 142 138 L 146 150 Z" fill="#c98a8a" opacity="0.6" />
+
+          <!-- closed eyes (gentle arcs) -->
+          <path d="M 100 184 q 6 -4 12 0" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round" />
+          <path d="M 128 182 q 6 -4 12 0" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round" />
+
+          <!-- nose -->
+          <path d="M 116 196 l -5 6 l 10 0 Z" fill="#c98a8a" />
+
+          <!-- mouth -->
+          <path d="M 116 202 q -3 4 -7 3" stroke="#3a2a1a" stroke-width="1.4" fill="none" stroke-linecap="round" />
+          <path d="M 116 202 q  3 4  7 3" stroke="#3a2a1a" stroke-width="1.4" fill="none" stroke-linecap="round" />
+
+          <!-- whisker hints -->
+          <line x1="98"  y1="200" x2="78"  y2="198" stroke="#9a8866" stroke-width="0.8" />
+          <line x1="98"  y1="204" x2="78"  y2="206" stroke="#9a8866" stroke-width="0.8" />
+          <line x1="134" y1="200" x2="154" y2="198" stroke="#9a8866" stroke-width="0.8" />
+          <line x1="134" y1="204" x2="154" y2="206" stroke="#9a8866" stroke-width="0.8" />
+
+          <!-- front paw peeking out -->
+          <ellipse cx="135" cy="222" rx="14" ry="7" fill="#d8c0a0" />
+        </g>
+      </svg>
+    </main>
+  </body>
+</html>
