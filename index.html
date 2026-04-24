@@ -54,7 +54,7 @@
       }
 
       .tail {
-        transform-origin: 380px 200px;
+        transform-origin: 350px 200px;
         animation: tail-wag 5s ease-in-out infinite;
       }
       @keyframes tail-wag {
@@ -138,21 +138,21 @@
     <main class="scene" id="scene" aria-label="An orange tabby cat lying on her side">
       <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
 
-        <!-- TAIL (behind, curling lower right with white tip) -->
+        <!-- TAIL (starts inside body so it stays connected through wag/breathe) -->
         <g class="tail">
           <path
-            d="M 380 200
-               Q 435 215, 445 250
-               Q 442 270, 425 270"
+            d="M 350 200
+               Q 420 215, 442 250
+               Q 442 272, 422 272"
             fill="none"
             stroke="#e89a4a"
-            stroke-width="18"
+            stroke-width="20"
             stroke-linecap="round" />
-          <!-- tail stripes -->
-          <path d="M 415 218 q 4 6 4 13" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
-          <path d="M 438 240 q -2 6 -8 8"  stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
+          <!-- tail stripes (solid color, no opacity for consistent mobile rendering) -->
+          <path d="M 410 218 q 4 6 4 13"  stroke="#b86528" stroke-width="3" fill="none" stroke-linecap="round" />
+          <path d="M 435 240 q -2 6 -8 8" stroke="#b86528" stroke-width="3" fill="none" stroke-linecap="round" />
           <!-- white tail tip -->
-          <circle cx="425" cy="270" r="10" fill="#fff5e6" />
+          <circle cx="422" cy="272" r="10" fill="#fff5e6" />
         </g>
 
         <g class="breathe">
@@ -178,8 +178,8 @@
                Q 146 180, 158 158 Z"
             fill="#f4d4a4" />
 
-          <!-- back/side stripes -->
-          <g opacity="0.85" stroke="#9b4f1a" stroke-width="4" fill="none" stroke-linecap="round">
+          <!-- back/side stripes (solid color, no opacity for stable mobile rendering) -->
+          <g stroke="#a85c20" stroke-width="4" fill="none" stroke-linecap="round">
             <path d="M 156 110 q 2 12 -2 22" />
             <path d="M 188 104 q 2 14 -2 24" />
             <path d="M 220 100 q 0 16 0 26" />
@@ -249,22 +249,22 @@
 
           <!-- HEAD on the left -->
           <g>
-            <!-- ears (orange outer + soft pink inner) -->
-            <path d="M 70 78 L 58 35 L 95 70 Z"   fill="#e89a4a" />
+            <!-- ears (orange outer + soft pink inner, fully opaque) -->
+            <path d="M 70 78 L 58 35 L 95 70 Z"    fill="#e89a4a" />
             <path d="M 135 78 L 148 35 L 110 65 Z" fill="#e89a4a" />
-            <path d="M 74 70 L 70 48 L 88 66 Z"   fill="#e8a4a0" opacity="0.95" />
-            <path d="M 130 68 L 140 50 L 118 60 Z" fill="#e8a4a0" opacity="0.95" />
+            <path d="M 74 70 L 70 48 L 88 66 Z"    fill="#e8a4a0" />
+            <path d="M 130 68 L 140 50 L 118 60 Z" fill="#e8a4a0" />
 
             <circle cx="100" cy="118" r="48" fill="#e89a4a" />
 
-            <!-- forehead tabby M (darker) -->
-            <g opacity="0.75" fill="none" stroke="#9b4f1a" stroke-width="2.8" stroke-linecap="round">
+            <!-- forehead tabby M (solid color) -->
+            <g fill="none" stroke="#a85c20" stroke-width="2.8" stroke-linecap="round">
               <path d="M 78 92  q 4 8 0 16" />
               <path d="M 100 88 q 0 10 0 18" />
               <path d="M 122 92 q -4 8 0 16" />
             </g>
-            <!-- side cheek stripes -->
-            <g opacity="0.65" fill="none" stroke="#9b4f1a" stroke-width="2.5" stroke-linecap="round">
+            <!-- side cheek stripes (solid color) -->
+            <g fill="none" stroke="#b8682a" stroke-width="2.5" stroke-linecap="round">
               <path d="M 65 112 q 8 0 14 -4" />
               <path d="M 60 126 q 10 -2 16 -4" />
               <path d="M 135 112 q -8 0 -14 -4" />
@@ -281,14 +281,15 @@
 
               <!-- AWAKE: wide round eyes + reverted two-curve mouth -->
               <g class="awake">
-                <circle cx="84"  cy="118" r="9.5" fill="#b9d27a" />
-                <circle cx="116" cy="118" r="9.5" fill="#b9d27a" />
-                <circle cx="84"  cy="118" r="9.5" fill="none" stroke="#3a2010" stroke-width="1.2" />
-                <circle cx="116" cy="118" r="9.5" fill="none" stroke="#3a2010" stroke-width="1.2" />
-                <ellipse class="pupil" data-eye-cx="84"  data-eye-cy="118" cx="84"  cy="118" rx="5" ry="5.5" fill="#1a1a1a" />
-                <ellipse class="pupil" data-eye-cx="116" data-eye-cy="118" cx="116" cy="118" rx="5" ry="5.5" fill="#1a1a1a" />
-                <circle cx="86"  cy="115" r="1.6" fill="#fff" />
-                <circle cx="118" cy="115" r="1.6" fill="#fff" />
+                <circle cx="84"  cy="118" r="10" fill="#b9d27a" />
+                <circle cx="116" cy="118" r="10" fill="#b9d27a" />
+                <circle cx="84"  cy="118" r="10" fill="none" stroke="#3a2010" stroke-width="2" />
+                <circle cx="116" cy="118" r="10" fill="none" stroke="#3a2010" stroke-width="2" />
+                <ellipse class="pupil" data-eye-cx="84"  data-eye-cy="118" cx="84"  cy="118" rx="6.5" ry="7" fill="#1a1a1a" />
+                <ellipse class="pupil" data-eye-cx="116" data-eye-cy="118" cx="116" cy="118" rx="6.5" ry="7" fill="#1a1a1a" />
+                <!-- catchlights offset to upper-left so the dark pupil is clearly visible at center -->
+                <circle cx="81"  cy="115" r="2" fill="#fff" pointer-events="none" />
+                <circle cx="113" cy="115" r="2" fill="#fff" pointer-events="none" />
                 <!-- reverted mouth (two soft curves) -->
                 <path d="M 100 141 q -5 4 -9 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
                 <path d="M 100 141 q  5 4  9 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
@@ -335,8 +336,8 @@
             <line x1="140" y1="136" x2="172" y2="140" stroke="#b09060" stroke-width="0.9" />
           </g>
 
-          <!-- TUMMY HIT TARGET -->
-          <ellipse class="tummy-hit" cx="245" cy="185" rx="105" ry="40" fill="transparent" />
+          <!-- TUMMY HIT TARGET (explicit fill + pointer-events for reliable mobile hit testing) -->
+          <ellipse class="tummy-hit" cx="245" cy="185" rx="105" ry="40" fill="#000" fill-opacity="0" pointer-events="all" />
         </g>
       </svg>
 
@@ -364,8 +365,8 @@
         return pt.matrixTransform(svg.getScreenCTM().inverse());
       }
       const MAX = 2.5;
-      window.addEventListener('mousemove', (e) => {
-        const p = svgPoint(e.clientX, e.clientY);
+      function trackTo(clientX, clientY) {
+        const p = svgPoint(clientX, clientY);
         pupils.forEach((pupil) => {
           const ex = parseFloat(pupil.dataset.eyeCx);
           const ey = parseFloat(pupil.dataset.eyeCy);
@@ -377,7 +378,11 @@
           pupil.setAttribute('cx', ex + dx * k);
           pupil.setAttribute('cy', ey + dy * k);
         });
-      });
+      }
+      window.addEventListener('mousemove', (e) => trackTo(e.clientX, e.clientY));
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length) trackTo(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
 
       let busy = false;
       tummy.addEventListener('click', () => {
