@@ -4,8 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
+    <!-- opt out of mobile browser force-dark color inversion: page is already dark by design -->
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="supported-color-schemes" content="dark" />
     <title>ritnoppakun.com — prototype</title>
     <style>
+      :root { color-scheme: dark; }
+
       @font-face {
         font-family: 'Anime Ace';
         src: url('./fonts/animeace2_reg.ttf') format('truetype');
@@ -17,6 +23,8 @@
         background: #000;
         overflow: hidden;
         cursor: crosshair;
+        /* belt-and-suspenders: explicitly ask Chromium not to invert anything */
+        forced-color-adjust: none;
       }
       body {
         display: flex; align-items: center; justify-content: center;
