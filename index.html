@@ -6,6 +6,12 @@
     <meta name="robots" content="noindex" />
     <title>ritnoppakun.com</title>
     <style>
+      @font-face {
+        font-family: 'Anime Ace';
+        src: url('./fonts/animeace2_reg.ttf') format('truetype');
+        font-display: swap;
+      }
+
       html, body {
         margin: 0;
         padding: 0;
@@ -47,9 +53,8 @@
       }
 
       .zzz {
-        fill: #4a4a4a;
-        font-family: ui-serif, Georgia, "Times New Roman", serif;
-        font-style: italic;
+        fill: #b88040;
+        font-family: 'Anime Ace', 'Comic Sans MS', cursive;
         font-weight: 400;
         opacity: 0;
         animation: float 5s ease-in-out infinite;
@@ -59,19 +64,19 @@
       .zzz.z3 { animation-delay: 3.2s; font-size: 30px; }
       @keyframes float {
         0%   { opacity: 0;   transform: translate(0, 0); }
-        20%  { opacity: 0.6; }
-        80%  { opacity: 0.4; }
+        20%  { opacity: 0.75; }
+        80%  { opacity: 0.5; }
         100% { opacity: 0;   transform: translate(14px, -50px); }
       }
 
       @media (prefers-reduced-motion: reduce) {
         .breathe, .tail, .zzz { animation: none; }
-        .zzz { opacity: 0.4; }
+        .zzz { opacity: 0.5; }
       }
     </style>
   </head>
   <body>
-    <main class="scene" aria-label="A sleeping cat">
+    <main class="scene" aria-label="A sleeping orange tabby cat">
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <!-- soft shadow -->
         <ellipse cx="200" cy="258" rx="135" ry="6" fill="#0c0c0c" />
@@ -92,11 +97,14 @@
                  q 38 -8 38 22
                  q 0 28 -28 32"
               fill="none"
-              stroke="#e9d4b8"
+              stroke="#e89a4a"
               stroke-width="22"
               stroke-linecap="round" />
-            <!-- tail tip highlight -->
-            <circle cx="295" cy="269" r="9" fill="#f3dfc4" />
+            <!-- tail rings (tabby) -->
+            <path d="M 318 218 q 6 4 8 12" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
+            <path d="M 322 240 q 4 6 0 14" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
+            <!-- tail tip cream -->
+            <circle cx="295" cy="269" r="9" fill="#f6e0bc" />
           </g>
 
           <!-- main body: a curled oval -->
@@ -107,48 +115,66 @@
                Q 305 162, 300 215
                Q 295 252, 200 252
                Q 130 252, 105 230 Z"
-            fill="#e9d4b8" />
+            fill="#e89a4a" />
 
-          <!-- belly tuck shading -->
+          <!-- tabby stripes on body -->
+          <g opacity="0.55" fill="none" stroke="#a85820" stroke-width="4" stroke-linecap="round">
+            <path d="M 175 158 q 6 10 0 22" />
+            <path d="M 205 152 q 8 12 2 26" />
+            <path d="M 240 156 q 8 12 2 28" />
+            <path d="M 270 168 q 8 14 2 28" />
+          </g>
+
+          <!-- belly tuck (cream underside) -->
           <path
             d="M 150 245
                Q 200 258, 270 240
                Q 240 252, 200 252
                Q 170 252, 150 245 Z"
-            fill="#d8c0a0" />
+            fill="#f4d4a4" />
 
           <!-- back leg/paw tucked -->
-          <ellipse cx="170" cy="240" rx="22" ry="9" fill="#d8c0a0" />
+          <ellipse cx="170" cy="240" rx="22" ry="9" fill="#d6843a" />
 
           <!-- head -->
-          <circle cx="118" cy="186" r="38" fill="#e9d4b8" />
+          <circle cx="118" cy="186" r="38" fill="#e89a4a" />
+
+          <!-- forehead tabby M-stripe -->
+          <g opacity="0.6" fill="none" stroke="#a85820" stroke-width="3" stroke-linecap="round">
+            <path d="M 102 168 q 4 8 0 16" />
+            <path d="M 118 164 q 0 10 0 20" />
+            <path d="M 134 168 q -4 8 0 16" />
+          </g>
+
+          <!-- cheek/chin cream patch -->
+          <path d="M 100 200 Q 118 215, 140 200 Q 130 218, 118 220 Q 106 218, 100 200 Z" fill="#f4d4a4" opacity="0.85" />
 
           <!-- ears -->
-          <path d="M 92 162 L 88 134 L 114 156 Z"  fill="#e9d4b8" />
-          <path d="M 130 152 L 144 128 L 150 152 Z" fill="#e9d4b8" />
-          <!-- inner ear blush -->
-          <path d="M 96 158 L 96 144 L 108 156 Z"  fill="#c98a8a" opacity="0.6" />
-          <path d="M 134 150 L 142 138 L 146 150 Z" fill="#c98a8a" opacity="0.6" />
+          <path d="M 92 162 L 88 134 L 114 156 Z"  fill="#e89a4a" />
+          <path d="M 130 152 L 144 128 L 150 152 Z" fill="#e89a4a" />
+          <!-- inner ear pink -->
+          <path d="M 96 158 L 96 144 L 108 156 Z"  fill="#d4847a" opacity="0.7" />
+          <path d="M 134 150 L 142 138 L 146 150 Z" fill="#d4847a" opacity="0.7" />
 
           <!-- closed eyes (gentle arcs) -->
-          <path d="M 100 184 q 6 -4 12 0" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round" />
-          <path d="M 128 182 q 6 -4 12 0" stroke="#3a2a1a" stroke-width="2" fill="none" stroke-linecap="round" />
+          <path d="M 100 184 q 6 -4 12 0" stroke="#3a2010" stroke-width="2.2" fill="none" stroke-linecap="round" />
+          <path d="M 128 182 q 6 -4 12 0" stroke="#3a2010" stroke-width="2.2" fill="none" stroke-linecap="round" />
 
           <!-- nose -->
-          <path d="M 116 196 l -5 6 l 10 0 Z" fill="#c98a8a" />
+          <path d="M 116 196 l -5 6 l 10 0 Z" fill="#c87878" />
 
           <!-- mouth -->
-          <path d="M 116 202 q -3 4 -7 3" stroke="#3a2a1a" stroke-width="1.4" fill="none" stroke-linecap="round" />
-          <path d="M 116 202 q  3 4  7 3" stroke="#3a2a1a" stroke-width="1.4" fill="none" stroke-linecap="round" />
+          <path d="M 116 202 q -3 4 -7 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+          <path d="M 116 202 q  3 4  7 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
 
-          <!-- whisker hints -->
-          <line x1="98"  y1="200" x2="78"  y2="198" stroke="#9a8866" stroke-width="0.8" />
-          <line x1="98"  y1="204" x2="78"  y2="206" stroke="#9a8866" stroke-width="0.8" />
-          <line x1="134" y1="200" x2="154" y2="198" stroke="#9a8866" stroke-width="0.8" />
-          <line x1="134" y1="204" x2="154" y2="206" stroke="#9a8866" stroke-width="0.8" />
+          <!-- whiskers -->
+          <line x1="98"  y1="200" x2="78"  y2="198" stroke="#b09060" stroke-width="0.8" />
+          <line x1="98"  y1="204" x2="78"  y2="206" stroke="#b09060" stroke-width="0.8" />
+          <line x1="134" y1="200" x2="154" y2="198" stroke="#b09060" stroke-width="0.8" />
+          <line x1="134" y1="204" x2="154" y2="206" stroke="#b09060" stroke-width="0.8" />
 
-          <!-- front paw peeking out -->
-          <ellipse cx="135" cy="222" rx="14" ry="7" fill="#d8c0a0" />
+          <!-- front paw peeking out (cream toes) -->
+          <ellipse cx="135" cy="222" rx="14" ry="7" fill="#f4d4a4" />
         </g>
       </svg>
     </main>
