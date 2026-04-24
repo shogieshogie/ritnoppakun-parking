@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>ritnoppakun.com</title>
+    <title>ritnoppakun.com — prototype</title>
     <style>
       @font-face {
         font-family: 'Anime Ace';
@@ -13,163 +13,349 @@
       }
 
       html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
+        margin: 0; padding: 0; height: 100%;
         background: #000;
         overflow: hidden;
+        cursor: crosshair;
       }
       body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .scene {
-        width: min(80vw, 520px);
-        aspect-ratio: 4 / 3;
-      }
-      .scene svg {
-        width: 100%;
-        height: 100%;
-        display: block;
+        display: flex; align-items: center; justify-content: center;
       }
 
+      .scene {
+        width: min(85vw, 720px);
+        aspect-ratio: 25 / 14;
+        position: relative;
+        transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        transform-origin: center center;
+      }
+      .scene svg { width: 100%; height: 100%; display: block; }
+      .tummy-hit { cursor: pointer; }
+
       .breathe {
-        transform-origin: 200px 230px;
-        animation: breathe 4.5s ease-in-out infinite;
+        transform-origin: 250px 180px;
+        animation: breathe 4s ease-in-out infinite;
       }
       @keyframes breathe {
         0%, 100% { transform: scale(1, 1); }
-        50%      { transform: scale(1.018, 1.035); }
+        50%      { transform: scale(1.015, 1.025); }
+      }
+
+      .paw {
+        transform-origin: var(--paw-origin, 250px 180px);
+        animation: paw-twitch 6s ease-in-out infinite;
+      }
+      .paw.p2 { animation-delay: 1.5s; }
+      .paw.p3 { animation-delay: 3s; }
+      .paw.p4 { animation-delay: 4.5s; }
+      @keyframes paw-twitch {
+        0%, 92%, 100% { transform: rotate(0); }
+        96%           { transform: rotate(-4deg); }
       }
 
       .tail {
-        transform-origin: 285px 215px;
-        animation: tail 6s ease-in-out infinite;
+        transform-origin: 380px 200px;
+        animation: tail-wag 5s ease-in-out infinite;
       }
-      @keyframes tail {
-        0%, 100% { transform: rotate(0deg); }
-        50%      { transform: rotate(-3deg); }
+      @keyframes tail-wag {
+        0%, 100% { transform: rotate(0); }
+        50%      { transform: rotate(6deg); }
       }
 
-      .zzz {
-        fill: #b88040;
-        font-family: 'Anime Ace', 'Comic Sans MS', cursive;
-        font-weight: 400;
-        opacity: 0;
-        animation: float 5s ease-in-out infinite;
+      .scene.angry {
+        transform: scale(1.7) translateY(-10px);
+        transition: transform 140ms cubic-bezier(0.2, 0.6, 0.4, 2);
       }
-      .zzz.z1 { animation-delay: 0s;   font-size: 22px; }
-      .zzz.z2 { animation-delay: 1.6s; font-size: 26px; }
-      .zzz.z3 { animation-delay: 3.2s; font-size: 30px; }
-      @keyframes float {
-        0%   { opacity: 0;   transform: translate(0, 0); }
-        15%  { opacity: 1; }
-        80%  { opacity: 0.95; }
-        100% { opacity: 0;   transform: translate(14px, -50px); }
+      .scene.angry .breathe,
+      .scene.angry .paw { animation-play-state: paused; }
+      .scene.angry .tail { animation: tail-poof 0.4s ease-out; }
+      @keyframes tail-poof {
+        from { transform: rotate(0) scale(1); }
+        to   { transform: rotate(35deg) scale(1.15); }
+      }
+
+      .calm-face { opacity: 1; transition: opacity 120ms ease; }
+      .angry-face { opacity: 0; transition: opacity 120ms ease; }
+      .scene.angry .calm-face { opacity: 0; }
+      .scene.angry .angry-face { opacity: 1; }
+
+      .scratch {
+        position: fixed; inset: 0;
+        pointer-events: none; z-index: 10; opacity: 0;
+      }
+      .scratch svg { width: 100%; height: 100%; display: block; }
+      .scratch-line {
+        stroke: #fff; stroke-width: 14; stroke-linecap: round; fill: none;
+        stroke-dasharray: 1400; stroke-dashoffset: 1400;
+        filter: drop-shadow(0 0 12px rgba(255, 60, 60, 0.85))
+                drop-shadow(0 0 4px rgba(255, 0, 0, 1));
+      }
+      .scratch.flash { animation: scratch-flash 700ms ease-out forwards; }
+      .scratch.flash .scratch-line { animation: scratch-draw 320ms cubic-bezier(0.3, 0, 0.2, 1) forwards; }
+      .scratch.flash .scratch-line.s2 { animation-delay: 60ms; }
+      .scratch.flash .scratch-line.s3 { animation-delay: 120ms; }
+      @keyframes scratch-flash {
+        0% { opacity: 0; } 15% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; }
+      }
+      @keyframes scratch-draw { to { stroke-dashoffset: 0; } }
+
+      .hint {
+        position: absolute;
+        left: 50%; top: 70%;
+        transform: translate(-50%, -50%);
+        color: rgba(255, 255, 255, 0.18);
+        font-family: 'Anime Ace', 'Comic Sans MS', cursive;
+        font-size: 14px;
+        pointer-events: none;
+        animation: hint-pulse 6s ease-in-out infinite;
+      }
+      @keyframes hint-pulse {
+        0%, 80%, 100% { opacity: 0; }
+        40%, 60%      { opacity: 1; }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .breathe, .tail, .zzz { animation: none; }
-        .zzz { opacity: 0.5; }
+        .breathe, .paw, .tail, .hint { animation: none; }
       }
     </style>
   </head>
   <body>
-    <main class="scene" aria-label="A sleeping orange tabby cat">
-      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-        <!-- floating Zzz -->
-        <g transform="translate(255 130)">
-          <text class="zzz z1" x="0"  y="0">z</text>
-          <text class="zzz z2" x="14" y="-22">z</text>
-          <text class="zzz z3" x="32" y="-46">Z</text>
+    <main class="scene" id="scene" aria-label="A brown tabby cat lying on her back">
+      <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- TAIL (behind, curling lower right) -->
+        <g class="tail">
+          <path
+            d="M 380 200
+               Q 430 215, 430 250
+               Q 425 268, 408 268"
+            fill="none"
+            stroke="#e89a4a"
+            stroke-width="18"
+            stroke-linecap="round" />
+          <circle cx="408" cy="268" r="8" fill="#f4d4a4" />
+          <path d="M 422 222 q 4 6 4 14" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
         </g>
 
-        <!-- cat body (breathing) -->
         <g class="breathe">
-          <!-- tail (curls behind body) -->
-          <g class="tail">
-            <path
-              d="M 285 215
-                 q 38 -8 38 22
-                 q 0 28 -28 32"
-              fill="none"
-              stroke="#e89a4a"
-              stroke-width="22"
-              stroke-linecap="round" />
-            <!-- tail rings (tabby) -->
-            <path d="M 318 218 q 6 4 8 12" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
-            <path d="M 322 240 q 4 6 0 14" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
-            <!-- tail tip cream -->
-            <circle cx="295" cy="269" r="9" fill="#f6e0bc" />
-          </g>
 
-          <!-- main body: a curled oval -->
+          <!-- MAIN BODY: long horizontal blob -->
           <path
-            d="M 105 230
-               Q  85 195, 125 168
-               Q 175 138, 245 150
-               Q 305 162, 300 215
-               Q 295 252, 200 252
-               Q 130 252, 105 230 Z"
+            d="M 110 130
+               Q 105 95, 145 90
+               Q 220 80, 295 95
+               Q 360 105, 385 150
+               Q 395 200, 350 220
+               Q 240 235, 155 222
+               Q 105 215, 110 130 Z"
             fill="#e89a4a" />
 
-          <!-- tabby stripes on body -->
-          <g opacity="0.55" fill="none" stroke="#a85820" stroke-width="4" stroke-linecap="round">
-            <path d="M 175 158 q 6 10 0 22" />
-            <path d="M 205 152 q 8 12 2 26" />
-            <path d="M 240 156 q 8 12 2 28" />
-            <path d="M 270 168 q 8 14 2 28" />
-          </g>
-
-          <!-- belly tuck (cream underside) -->
+          <!-- TUMMY (cream, exposed) -->
           <path
-            d="M 150 245
-               Q 200 258, 270 240
-               Q 240 252, 200 252
-               Q 170 252, 150 245 Z"
+            d="M 150 145
+               Q 220 155, 295 145
+               Q 350 152, 360 195
+               Q 320 218, 240 218
+               Q 170 218, 150 200
+               Q 138 175, 150 145 Z"
             fill="#f4d4a4" />
 
-
-          <!-- head -->
-          <circle cx="118" cy="186" r="38" fill="#e89a4a" />
-
-          <!-- forehead tabby M-stripe (subtle) -->
-          <g opacity="0.28" fill="none" stroke="#c47a30" stroke-width="2.2" stroke-linecap="round">
-            <path d="M 102 168 q 4 8 0 16" />
-            <path d="M 118 164 q 0 10 0 20" />
-            <path d="M 134 168 q -4 8 0 16" />
+          <!-- side stripes (back/sides showing on top edge of body) -->
+          <g opacity="0.7" stroke="#a85820" stroke-width="4" fill="none" stroke-linecap="round">
+            <path d="M 150 100 q 2 10 -2 18" />
+            <path d="M 185 92 q 2 12 -2 22" />
+            <path d="M 220 90 q 0 14 0 24" />
+            <path d="M 255 92 q 0 14 2 24" />
+            <path d="M 290 96 q 2 14 4 24" />
+            <path d="M 325 105 q 4 14 6 22" />
+            <path d="M 355 120 q 6 12 6 22" />
           </g>
 
-          <!-- cheek/chin cream patch -->
-          <path d="M 100 200 Q 118 215, 140 200 Q 130 218, 118 220 Q 106 218, 100 200 Z" fill="#f4d4a4" opacity="0.85" />
+          <!-- belly stripes (lighter on cream) -->
+          <g opacity="0.5" stroke="#c87838" stroke-width="3" fill="none" stroke-linecap="round">
+            <path d="M 175 168 q 0 10 2 18" />
+            <path d="M 210 170 q 0 12 2 20" />
+            <path d="M 245 170 q 0 12 0 20" />
+            <path d="M 280 170 q 0 12 -2 20" />
+            <path d="M 315 172 q 0 10 -2 18" />
+          </g>
 
-          <!-- ears -->
-          <path d="M 92 162 L 88 134 L 114 156 Z"  fill="#e89a4a" />
-          <path d="M 130 152 L 144 128 L 150 152 Z" fill="#e89a4a" />
-          <!-- inner ear pink -->
-          <path d="M 96 158 L 96 144 L 108 156 Z"  fill="#d4847a" opacity="0.7" />
-          <path d="M 134 150 L 142 138 L 146 150 Z" fill="#d4847a" opacity="0.7" />
+          <!-- chest fluff line -->
+          <path d="M 240 150 Q 245 190, 240 218" stroke="#dcb98c" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.7" />
 
-          <!-- closed eyes (gentle arcs) -->
-          <path d="M 100 184 q 6 -4 12 0" stroke="#3a2010" stroke-width="2.2" fill="none" stroke-linecap="round" />
-          <path d="M 128 182 q 6 -4 12 0" stroke="#3a2010" stroke-width="2.2" fill="none" stroke-linecap="round" />
+          <!-- BACK LEG (right) bent up, knee high — shorter and lowered -->
+          <g class="paw p1" style="--paw-origin: 345px 175px;">
+            <path
+              d="M 345 175
+                 Q 380 145, 360 115"
+              fill="none"
+              stroke="#e89a4a"
+              stroke-width="30"
+              stroke-linecap="round" />
+            <!-- leg stripe -->
+            <path d="M 376 142 q -8 4 -10 12" stroke="#a85820" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7" />
+            <!-- paw at top, tilted back -->
+            <ellipse cx="358" cy="108" rx="16" ry="11" fill="#e89a4a" transform="rotate(-25 358 108)" />
+            <ellipse cx="352" cy="102" rx="10" ry="6" fill="#f4d4a4" transform="rotate(-25 352 102)" />
+            <circle cx="346" cy="100" r="2" fill="#c87878" />
+            <circle cx="352" cy="98" r="2" fill="#c87878" />
+            <circle cx="358" cy="100" r="2" fill="#c87878" />
+          </g>
 
-          <!-- nose -->
-          <path d="M 116 196 l -5 6 l 10 0 Z" fill="#c87878" />
+          <!-- BACK LEG (left, tucked low) -->
+          <g class="paw p2" style="--paw-origin: 320px 220px;">
+            <ellipse cx="320" cy="225" rx="26" ry="13" fill="#e89a4a" />
+            <ellipse cx="338" cy="226" rx="10" ry="6" fill="#f4d4a4" />
+            <circle cx="332" cy="226" r="1.8" fill="#c87878" />
+            <circle cx="338" cy="223" r="1.8" fill="#c87878" />
+            <circle cx="344" cy="226" r="1.8" fill="#c87878" />
+          </g>
 
-          <!-- mouth -->
-          <path d="M 116 202 q -3 4 -7 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
-          <path d="M 116 202 q  3 4  7 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+          <!-- FRONT PAWS bent toward chin -->
+          <g class="paw p3" style="--paw-origin: 145px 160px;">
+            <path
+              d="M 150 160
+                 Q 120 180, 110 215"
+              fill="none"
+              stroke="#e89a4a"
+              stroke-width="20"
+              stroke-linecap="round" />
+            <ellipse cx="108" cy="220" rx="14" ry="10" fill="#f4d4a4" transform="rotate(-25 108 220)" />
+            <circle cx="101" cy="220" r="2" fill="#c87878" />
+            <circle cx="108" cy="217" r="2" fill="#c87878" />
+            <circle cx="115" cy="220" r="2" fill="#c87878" />
+          </g>
+          <g class="paw p4" style="--paw-origin: 165px 165px;">
+            <path
+              d="M 168 165
+                 Q 145 195, 138 225"
+              fill="none"
+              stroke="#e89a4a"
+              stroke-width="18"
+              stroke-linecap="round" />
+            <ellipse cx="135" cy="230" rx="13" ry="9" fill="#f4d4a4" transform="rotate(-25 135 230)" />
+            <circle cx="129" cy="230" r="2" fill="#c87878" />
+            <circle cx="135" cy="227" r="2" fill="#c87878" />
+            <circle cx="141" cy="230" r="2" fill="#c87878" />
+          </g>
 
-          <!-- whiskers -->
-          <line x1="98"  y1="200" x2="78"  y2="198" stroke="#b09060" stroke-width="0.8" />
-          <line x1="98"  y1="204" x2="78"  y2="206" stroke="#b09060" stroke-width="0.8" />
-          <line x1="134" y1="200" x2="154" y2="198" stroke="#b09060" stroke-width="0.8" />
-          <line x1="134" y1="204" x2="154" y2="206" stroke="#b09060" stroke-width="0.8" />
+          <!-- HEAD on the left -->
+          <g>
+            <!-- ears -->
+            <path d="M 70 78 L 58 35 L 95 70 Z" fill="#e89a4a" />
+            <path d="M 135 78 L 148 35 L 110 65 Z" fill="#e89a4a" />
+            <path d="M 74 70 L 70 48 L 88 66 Z" fill="#d4847a" opacity="0.7" />
+            <path d="M 130 68 L 140 50 L 118 60 Z" fill="#d4847a" opacity="0.7" />
 
+            <circle cx="100" cy="115" r="46" fill="#e89a4a" />
+
+            <!-- forehead tabby M -->
+            <g opacity="0.6" fill="none" stroke="#a85820" stroke-width="2.8" stroke-linecap="round">
+              <path d="M 78 90 q 4 8 0 16" />
+              <path d="M 100 86 q 0 10 0 18" />
+              <path d="M 122 90 q -4 8 0 16" />
+            </g>
+            <!-- side cheek stripes -->
+            <g opacity="0.55" fill="none" stroke="#a85820" stroke-width="2.5" stroke-linecap="round">
+              <path d="M 65 110 q 8 0 14 -4" />
+              <path d="M 60 124 q 10 -2 16 -4" />
+              <path d="M 135 110 q -8 0 -14 -4" />
+              <path d="M 140 124 q -10 -2 -16 -4" />
+            </g>
+
+            <!-- chin/cheek cream -->
+            <ellipse cx="100" cy="135" rx="30" ry="16" fill="#f4d4a4" />
+
+            <!-- CALM FACE (sleepy green-yellow eyes) -->
+            <g class="calm-face">
+              <ellipse cx="84" cy="115" rx="8" ry="7" fill="#cfd189" />
+              <ellipse cx="116" cy="115" rx="8" ry="7" fill="#cfd189" />
+              <ellipse class="pupil" data-eye-cx="84" data-eye-cy="115" cx="84" cy="115" rx="3" ry="6" fill="#1a1a1a" />
+              <ellipse class="pupil" data-eye-cx="116" data-eye-cy="115" cx="116" cy="115" rx="3" ry="6" fill="#1a1a1a" />
+              <circle cx="82" cy="113" r="1.3" fill="#fff" />
+              <circle cx="114" cy="113" r="1.3" fill="#fff" />
+              <path d="M 76 113 q 8 -5 16 0" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+              <path d="M 108 113 q 8 -5 16 0" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+              <path d="M 100 130 l -5 6 l 10 0 Z" fill="#c87878" />
+              <path d="M 100 137 q -5 4 -9 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+              <path d="M 100 137 q  5 4  9 3" stroke="#3a2010" stroke-width="1.4" fill="none" stroke-linecap="round" />
+            </g>
+
+            <!-- ANGRY FACE -->
+            <g class="angry-face">
+              <path d="M 74 112 q 10 -5 18 6" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linecap="round" />
+              <path d="M 108 112 q 10 -5 18 6" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linecap="round" />
+              <ellipse cx="84" cy="120" rx="11" ry="4" fill="#ff3a1f" opacity="0.4" />
+              <ellipse cx="116" cy="120" rx="11" ry="4" fill="#ff3a1f" opacity="0.4" />
+              <path d="M 100 130 l -5 6 l 10 0 Z" fill="#c87878" />
+              <path d="M 84 144 Q 100 162, 116 144 Q 100 152, 84 144 Z" fill="#1a1a1a" />
+              <path d="M 90 146 l 1.5 8 l 3 -8 Z" fill="#fff" />
+              <path d="M 106 146 l 1.5 8 l 3 -8 Z" fill="#fff" />
+            </g>
+
+            <!-- whiskers -->
+            <line x1="60" y1="128" x2="30" y2="126" stroke="#b09060" stroke-width="0.9" />
+            <line x1="60" y1="134" x2="30" y2="138" stroke="#b09060" stroke-width="0.9" />
+            <line x1="140" y1="128" x2="170" y2="126" stroke="#b09060" stroke-width="0.9" />
+            <line x1="140" y1="134" x2="170" y2="138" stroke="#b09060" stroke-width="0.9" />
+          </g>
+
+          <!-- TUMMY HIT TARGET -->
+          <ellipse class="tummy-hit" cx="245" cy="180" rx="105" ry="40" fill="transparent" />
         </g>
       </svg>
+
+      <div class="hint">click my tummy ✨</div>
     </main>
+
+    <div class="scratch" id="scratch" aria-hidden="true">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path class="scratch-line s1" d="M -5 110 L 70 -10" />
+        <path class="scratch-line s2" d="M 10 115 L 85 -5"  />
+        <path class="scratch-line s3" d="M 25 110 L 100 0"  />
+      </svg>
+    </div>
+
+    <script>
+      const scene = document.getElementById('scene');
+      const scratch = document.getElementById('scratch');
+      const tummy = document.querySelector('.tummy-hit');
+      const pupils = document.querySelectorAll('.pupil');
+      const svg = scene.querySelector('svg');
+
+      function svgPoint(x, y) {
+        const pt = svg.createSVGPoint();
+        pt.x = x; pt.y = y;
+        return pt.matrixTransform(svg.getScreenCTM().inverse());
+      }
+      const MAX = 2.5;
+      window.addEventListener('mousemove', (e) => {
+        const p = svgPoint(e.clientX, e.clientY);
+        pupils.forEach((pupil) => {
+          const ex = parseFloat(pupil.dataset.eyeCx);
+          const ey = parseFloat(pupil.dataset.eyeCy);
+          const dx = p.x - ex;
+          const dy = p.y - ey;
+          const d = Math.hypot(dx, dy);
+          if (d === 0) return;
+          const k = Math.min(MAX, d / 30) / d;
+          pupil.setAttribute('cx', ex + dx * k);
+          pupil.setAttribute('cy', ey + dy * k);
+        });
+      });
+
+      let busy = false;
+      tummy.addEventListener('click', () => {
+        if (busy) return;
+        busy = true;
+        scene.classList.add('angry');
+        setTimeout(() => scratch.classList.add('flash'), 120);
+        setTimeout(() => scene.classList.remove('angry'), 800);
+        setTimeout(() => {
+          scratch.classList.remove('flash');
+          busy = false;
+        }, 1400);
+      });
+    </script>
   </body>
 </html>
